@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+using namespace sf;
+
 Entity::Entity(Vector2f _position, const std::string& _texture, int _coins, int _force, float _speed, int _id): // Конструктор
     Object(_position, _texture, _coins, _id) { // Подключение конструктора объекта
         speed = _speed; // Установка скорости

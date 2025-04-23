@@ -1,5 +1,8 @@
 #include "Engine.h"
 
+using namespace sf;
+
+
 Player* players[PLAYERS_COUNT]; // Массив игроков
 Entity* entitys[ENTITY_COUNT]; // Массив противников
 Item* items[ITEMS_COUNT]; // Массив монет

@@ -1,5 +1,7 @@
 #include "Item.h"
 
+ using namespace sf;
+
 Item::Item(const std::string& _texture, int _coins, int _id): // Конструктор
     Object(Vector2f(rand() % MAX_X, rand() % MAX_Y), _texture, _coins, _id) {
         sprite.setPosition(position); 

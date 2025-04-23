@@ -2,6 +2,8 @@
 #define ENIUTY_H
 #include "Object.h"
 
+using namespace sf;
+
 class IEntity {
     protected:
         virtual void update(float elapsedTime) = 0; // Эта функция будет вызываться на каждый кадр

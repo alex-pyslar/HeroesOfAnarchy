@@ -1,22 +1,49 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.28)
+project(heroes-of-anarchy LANGUAGES CXX)
 
-project(lab-2-oop-sfml LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_CXX_STANDARD 11) # Версия стандарта C++
+# Пути к SFML
+set(SFML_ROOT "${CMAKE_SOURCE_DIR}/SFML-3.0.0")
+set(SFML_DIR "${SFML_ROOT}/lib/cmake/SFML")
 
-set(SOURCE_EXE src/main.cpp) # Установка переменной со списком исходников для исполняемого файла
+# Include директории
+include_directories(
+        "${SFML_ROOT}/include"
+        "${CMAKE_SOURCE_DIR}/include"
+)
 
-set(SOURCE_LIB src/Object.cpp
-               src/Entity.cpp
-               src/Player.cpp
-               src/Item.cpp
-               src/Engine.cpp
-) # Установка переменной со списком исходников для библиотеки
+# Исходные файлы
+set(SOURCE_EXE src/main.cpp)
+set(SOURCE_LIB
+        src/Object.cpp
+        src/Entity.cpp
+        src/Player.cpp
+        src/Item.cpp
+        src/Engine.cpp
+)
 
-add_library(lib STATIC ${SOURCE_LIB}) # Создание статической библиотеки
-
+# Создание библиотеки и исполняемого файла
+add_library(lib STATIC ${SOURCE_LIB})
 add_executable(${PROJECT_NAME} ${SOURCE_EXE})
 
-find_package (SFML 2.5 COMPONENTS graphics audio network REQUIRED)
+# Поиск SFML
+find_package(SFML 3.0 COMPONENTS Graphics Window System REQUIRED)
 
-target_link_libraries (${PROJECT_NAME} lib sfml-system sfml-graphics sfml-audio sfml-network)
+# Подключение SFML
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        lib
+        SFML::Graphics
+        SFML::Window
+        SFML::System
+)
+
+# Для Windows: копирование DLL
+if(WIN32)
+    file(GLOB SFML_DLLS "${SFML_ROOT}/bin/*.dll")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${SFML_DLLS}
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    )
+endif()

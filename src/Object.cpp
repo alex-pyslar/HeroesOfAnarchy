@@ -1,5 +1,8 @@
 #include "Object.h"
 
+using namespace sf;
+
+
 Object::Object(Vector2f _position, const std::string& _texture, int _coins, int _id) { // Конструктор
     position = _position;
     texture.loadFromFile(_texture);
